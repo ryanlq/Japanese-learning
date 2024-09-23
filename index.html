@@ -44,34 +44,7 @@
         <ul></ul>
 
         <script>
-            function isMobileDevice() {
-                const userAgent =
-                    navigator.userAgent || navigator.vendor || window.opera;
-
-                // 检查是否是iOS设备
-                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                    return true;
-                }
-
-                // 检查是否是Android设备
-                if (/Android/.test(userAgent)) {
-                    return true;
-                }
-
-                // 检查是否是Windows Phone设备
-                if (/IEMobile|WPDesktop/.test(userAgent)) {
-                    return true;
-                }
-
-                // 检查是否是其他移动设备
-                if (/Mobile/.test(userAgent)) {
-                    return true;
-                }
-
-                return false;
-            }
-
-            const isMobile = isMobileDevice();
+            const isMobile = /iPhone|Android|Mobile/.test(navigator.maxTouchPoints) ;
             const content_type = isMobile ? "content" : "mobile";
             const ul = document.querySelector("ul");
             for (let index = 1; index <= 49; index++) {
