@@ -6,7 +6,6 @@ let queue = []; // 用于存储待播放的文本
 let currentUtterance = null; // 当前正在播放的语音合成实例
 let playPauseBtn = document.getElementById("playPauseBtn"); // 假设你有一个播放/暂停按钮
 let toggleThemeBtn = document.getElementById("toggleThemeBtn");
-let jpAnalyzer = document.querySelector("my-jp-analyzer");
 let NewWords = [],
   NewWordMeans,
   matchWordsRegex;
@@ -89,10 +88,10 @@ function playNext() {
       readType = config.readType;
     }
   }
-  if (readType == "文章") {
-    const jp_sentence = element.firstElementChild.textContent;
-    jp_sentence && jpAnalyzer.setAttribute("data-text", jp_sentence);
-  }
+  // if (readType == "文章") {
+  //   const jp_sentence = element.firstElementChild.textContent;
+  //   jp_sentence && jpAnalyzer.setAttribute("data-text", jp_sentence);
+  // }
 
   currentUtterance.rate = rate; // 设置播放语速
 
@@ -303,7 +302,7 @@ export default function startApp(chatModule) {
       clickTimeout = setTimeout(() => {
         const text = t.firstElementChild.textContent;
         speak(t.firstElementChild.textContent, "ja-JP", "male", true);
-        text && jpAnalyzer.setAttribute("data-text", text);
+        // text && jpAnalyzer.setAttribute("data-text", text);
       }, 250);
     });
     t.addEventListener("dblclick", async (e) => {
