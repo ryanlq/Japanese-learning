@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>课本目录</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 20px;
+            }
+
+            ul {
+                list-style-type: none; /* 去掉默认的列表样式 */
+                padding: 0;
+                display: flex; /* 使用flex布局 */
+                flex-wrap: wrap; /* 允许换行 */
+            }
+
+            li {
+                background-color: #fff; /* 列表项背景色 */
+                margin: 10px; /* 列表项之间的间距 */
+                padding: 15px; /* 列表项内边距 */
+                border-radius: 5px; /* 圆角 */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+                transition: background-color 0.3s; /* 背景色过渡效果 */
+                display: inline-block; /* 使列表项在同一行显示 */
+                min-width: 100px; /* 设置最小宽度 */
+                text-align: center; /* 文字居中 */
+                color: #4a2b00; /* 链接文字颜色 */
+                font-weight: bold; /* 加粗链接文字 */
+                cursor: pointer;
+            }
+
+            li:hover {
+                background-color: #e0e0e0; /* 鼠标悬停时的背景色 */
+                color: #4a3d00; /* 鼠标悬停时链接颜色 */
+            }
+        </style>
+    </head>
+    <body>
+        <ul></ul>
+
+        <script>
+            const ul = document.querySelector("ul");
+            for (let index = 1; index <= 48; index++) {
+                const _index = index < 10 ? "0" + index : index;
+                const li = document.createElement("li");
+                li.setAttribute(
+                    "href",
+                    `/Japanese-learning/lessions/${_index}.md`,
+                );
+                li.textContent = `第${_index}课`;
+                li.addEventListener("click", () => {
+                    const href = li.getAttribute("href");
+                    window.open(
+                        `/Japanese-learning/content.html?index=${index}&lession=${encodeURIComponent(href)}`,
+                        "_blank",
+                    );
+                });
+                ul.appendChild(li);
+            }
+        </script>
+    </body>
+</html>
