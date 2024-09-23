@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="./assets/css/style.css" />
+
+        <script>
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const index = decodeURIComponent(urlParams.get("index"));
+            const lessionUrl = decodeURIComponent(urlParams.get("lession"));
+            function getWords(index) {
+                const url = "/Japanese-learning/lessions/vocabulary.md";
+                return getMDContent(url, "vocabulary", index);
+            }
+            function getMDContent(url, type = "lession", index = 1) {
+                return fetch(url)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("网络响应失败");
+                        }
+                        return response.text();
+                    })
+                    .then((markdown) => {
+                        let match = markdown.split(/## 第\d?\d课/)[index] || "";
+                        match = match.split("\n\n") || [];
+                        const result = match
+                            .filter((t) => Boolean(t.trim()))
+                            .map((t) => {
+                                return markdownToHtmlTable(t, type);
+                            })
+                            .join("");
+                        return result;
+                    });
+            }
+
+            function markdownToHtmlTable(markdownStr, type) {
+                const rows = markdownStr
+                    .trim()
+                    .split("\n")
+                    .filter((row) => row.trim() !== "" && row.includes("|"));
+                // let html = '<table border="1" class="regular">\n';
+                let html = `<table class="${(type = "lession" ? "lession" : "regular")}">\n`;
+
+                rows.forEach((row, index) => {
+                    const columns = row
+                        .split("|")
+                        .map((col) => col.trim())
+                        .filter((col) => col);
+
+                    if (index === 0) {
+                        html += "  <tr>\n";
+                        columns.forEach((col) => {
+                            html += `    <td>${col}</td>\n`;
+                        });
+                        html += "  </tr>\n";
+                    } else {
+                        html += "  <tr>\n";
+                        columns.forEach((col) => {
+                            html += `    <td>${col}</td>\n`;
+                        });
+                        html += "  </tr>\n";
+                    }
+                });
+                html += "</table>";
+                return html;
+            }
+
+            getMDContent(lessionUrl)
+                .then((text) => {
+                    document.getElementById("lession-content").innerHTML = text;
+                })
+                .catch((e) => console.log(e));
+        </script>
+    </head>
+
+    <body>
+        <div class="lession-layout">
+            <div class="btns">
+                <div class="group-1">
+                    <div class="home-btn">
+                        <a class="circle" href="/Japanese-learning/index.html"
+                            >🛖</a
+                        >
+                    </div>
+                    <div class="speech-btn">
+                        <button class="play-pause-btn" id="playPauseBtn">
+                            🐬
+                        </button>
+                    </div>
+                    <div class="theme-btn">
+                        <button class="circle" id="toggleThemeBtn">🌛</button>
+                    </div>
+                </div>
+                <div id="speech-control">
+                    <div class="read-type">
+                        <button
+                            class="range"
+                            id="read-type-btn"
+                            range='["文章","单词"]'
+                        >
+                            文章
+                        </button>
+                    </div>
+                    <div class="rate">
+                        <button
+                            class="range"
+                            id="speech-rate-btn"
+                            range="[0.5,0.75,1,1.25,1.5,2]"
+                            range-index="2"
+                        >
+                            1倍速
+                        </button>
+                    </div>
+                    <div class="loop-number">
+                        <button
+                            class="range"
+                            id="speech-loop-number-btn"
+                            range="[1,2,3,4,5]"
+                        >
+                            重复1次
+                        </button>
+                    </div>
+                    <div class="with-translate">
+                        <button
+                            class="range"
+                            checked
+                            id="with-translate-btn"
+                            range='["读翻译","不读翻译"]'
+                        >
+                            翻译
+                        </button>
+                    </div>
+                    <div class="list-loop">
+                        <button
+                            class="range"
+                            checked
+                            id="loop-btn"
+                            range='["播完停止","播完继续"]'
+                        >
+                            播完停止
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div id="lession-content"></div>
+            </div>
+        </div>
+        <div
+            id="mobile-words"
+            style="
+                position: absolute;
+                z-index: -9999;
+                width: 0;
+                height: 0;
+                visibility: hidden;
+            "
+        ></div>
+        <script type="module" defer>
+            import startApp from "/Japanese-learning/assets/js/script.js";
+            window.addEventListener("load", () => {
+                startApp(chatModule);
+            });
+        </script>
+    </body>
+</html>
