@@ -231,12 +231,8 @@
                     event.preventDefault();
                 });
                 practiceBtn.addEventListener("click", (event) => {
-                    if(!practice.innerHTML) {
-                        alert('组件还未初始化，稍后再试')
-                        return;
-                    };
                     if (!practice.toggleButtonId)
-                    practice.toggleButtonId = "practiceBtn";
+                        practice.toggleButtonId = "practiceBtn";
                     practice.toggle(true);
                     event.preventDefault();
                 });
