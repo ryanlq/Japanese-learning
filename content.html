@@ -6,75 +6,6 @@
         <title>Document</title>
         <link rel="stylesheet" href="./assets/css/style.css" />
 
-        <script defer>
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const index = decodeURIComponent(urlParams.get("index"));
-            const lessionUrl = decodeURIComponent(urlParams.get("lession"));
-            function getWords(index) {
-                const url = "/Japanese-learning/lessions/vocabulary.md";
-                return getMDContent(url, "vocabulary", index);
-            }
-            function getMDContent(url, type = "lession", index = 1) {
-                return fetch(url)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("网络响应失败");
-                        }
-                        return response.text();
-                    })
-                    .then((markdown) => {
-                        let match = markdown.split(/## 第\d?\d课/)[index] || "";
-                        match = match.split("\n\n") || [];
-                        const result = match
-                            .filter((t) => Boolean(t.trim()))
-                            .map((t) => {
-                                return markdownToHtmlTable(t, type);
-                            })
-                            .join("");
-                        return result;
-                    });
-            }
-
-            function markdownToHtmlTable(markdownStr, type) {
-                const rows = markdownStr
-                    .trim()
-                    .split("\n")
-                    .filter((row) => row.trim() !== "" && row.includes("|"));
-                // let html = '<table border="1" class="regular">\n';
-                let html = `<table class="${(type = "lession" ? "lession" : "regular")}">\n`;
-
-                rows.forEach((row, index) => {
-                    const columns = row
-                        .split("|")
-                        .map((col) => col.trim())
-                        .filter((col) => col);
-
-                    if (index === 0) {
-                        html += "  <tr>\n";
-                        columns.forEach((col) => {
-                            html += `    <td>${col}</td>\n`;
-                        });
-                        html += "  </tr>\n";
-                    } else {
-                        html += "  <tr>\n";
-                        columns.forEach((col) => {
-                            html += `    <td>${col}</td>\n`;
-                        });
-                        html += "  </tr>\n";
-                    }
-                });
-                html += "</table>";
-                return html;
-            }
-
-            getMDContent(lessionUrl)
-                .then((text) => {
-                    document.getElementById("lession-content").innerHTML = text;
-                })
-                .catch((e) => console.log(e));
-        </script>
-        <script src="https://my-html-sites.pages.dev/components/WritingPractice.js"></script>
     </head>
 
     <body>
@@ -177,7 +108,80 @@
             <dictation-component autoSpeak="true" lang="ja-JP"></dictation-component>
         </div>
 
+        <script defer>
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const index = decodeURIComponent(urlParams.get("index"));
+            const lessionUrl = decodeURIComponent(urlParams.get("lession"));
+            function getWords(index) {
+                const url = "/Japanese-learning/lessions/vocabulary.md";
+                return getMDContent(url, "vocabulary", index);
+            }
+            function getMDContent(url, type = "lession", index = 1) {
+                return fetch(url)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("网络响应失败");
+                        }
+                        return response.text();
+                    })
+                    .then((markdown) => {
+                        let match = markdown.split(/## 第\d?\d课/)[index] || "";
+                        match = match.split("\n\n") || [];
+                        const result = match
+                            .filter((t) => Boolean(t.trim()))
+                            .map((t) => {
+                                return markdownToHtmlTable(t, type);
+                            })
+                            .join("");
+                        return result;
+                    });
+            }
+
+            function markdownToHtmlTable(markdownStr, type) {
+                const rows = markdownStr
+                    .trim()
+                    .split("\n")
+                    .filter((row) => row.trim() !== "" && row.includes("|"));
+                // let html = '<table border="1" class="regular">\n';
+                let html = `<table class="${(type = "lession" ? "lession" : "regular")}">\n`;
+
+                rows.forEach((row, index) => {
+                    const columns = row
+                        .split("|")
+                        .map((col) => col.trim())
+                        .filter((col) => col);
+
+                    if (index === 0) {
+                        html += "  <tr>\n";
+                        columns.forEach((col) => {
+                            html += `    <td>${col}</td>\n`;
+                        });
+                        html += "  </tr>\n";
+                    } else {
+                        html += "  <tr>\n";
+                        columns.forEach((col) => {
+                            html += `    <td>${col}</td>\n`;
+                        });
+                        html += "  </tr>\n";
+                    }
+                });
+                html += "</table>";
+                return html;
+            }
+            document.addEventListener("DOMContentLoaded", function() {
+                getMDContent(lessionUrl)
+                .then((text) => {
+                    document.getElementById("lession-content").innerHTML = text;
+                })
+                .catch((e) => console.log(e));
+            });
+
+        </script>
+        <script src="https://my-html-sites.pages.dev/components/WritingPractice.js" defer></script>
         <script type="module" defer>
+
+  
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/Japanese-learning/sw.js', { scope: '/Japanese-learning/' })
                     .then((registration) => {
