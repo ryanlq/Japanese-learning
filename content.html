@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
-
+    <script src="./assets/js/global.js"></script>
 </head>
 
 <body>
@@ -85,70 +85,11 @@
     </div>
 
     <script defer>
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const index = decodeURIComponent(urlParams.get("index"));
-        const lessionUrl = decodeURIComponent(urlParams.get("lession"));
-        function getWords(index) {
-            const url = "/Japanese-learning/lessions/vocabulary.md";
-            return getMDContent(url, "vocabulary", index);
-        }
-        function getMDContent(url, type = "lession", index = 1) {
-            return fetch(url)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("网络响应失败");
-                    }
-                    return response.text();
-                })
-                .then((markdown) => {
-                    let match = markdown.split(/## 第\d?\d课/)[index] || "";
-                    match = match.split("\n\n") || [];
-                    const result = match
-                        .filter((t) => Boolean(t.trim()))
-                        .map((t) => {
-                            return markdownToHtmlTable(t, type);
-                        })
-                        .join("");
-                    return result;
-                });
-        }
 
-        function markdownToHtmlTable(markdownStr, type) {
-            const rows = markdownStr
-                .trim()
-                .split("\n")
-                .filter((row) => row.trim() !== "" && row.includes("|"));
-            // let html = '<table border="1" class="regular">\n';
-            let html = `<table class="${(type = "lession" ? "lession" : "regular")}">\n`;
-
-            rows.forEach((row, index) => {
-                const columns = row
-                    .split("|")
-                    .map((col) => col.trim())
-                    .filter((col) => col);
-
-                if (index === 0) {
-                    html += "  <tr>\n";
-                    columns.forEach((col) => {
-                        html += `    <td>${col}</td>\n`;
-                    });
-                    html += "  </tr>\n";
-                } else {
-                    html += "  <tr>\n";
-                    columns.forEach((col) => {
-                        html += `    <td>${col}</td>\n`;
-                    });
-                    html += "  </tr>\n";
-                }
-            });
-            html += "</table>";
-            return html;
-        }
     </script>
     <script type="module" defer>
 
-
+        let observer;
 
 
         import { createChatModule } from "https://my-html-sites.pages.dev/components/gpt/chatWithConfig.js";
@@ -157,7 +98,7 @@
         const configBtn = document.querySelector("#gptConfig");
         const practiceBtn = document.querySelector("#practiceBtn");
         const afterSaveCallback = () => configBtn.click();
-        const chatModule = createChatModule("gpt-config", {
+        chatModule = createChatModule("gpt-config", {
             styles: {
                 backgroundColor: "#fdfdfdf7",
                 border: "2px solid #8baf0a87",
@@ -197,15 +138,21 @@
 
         import startApp from "/Japanese-learning/assets/js/script.js";
 
+        function showTab(tabId) {
+            document.querySelectorAll(".tab").forEach((tab) => {
+                tab.classList.remove("active");
+            });
 
+            document.querySelectorAll(".tab-button").forEach((button) => {
+                button.classList.remove("active");
+            });
+
+            document.getElementById(tabId).classList.add("active");
+            document.getElementById(tabId + "-btn").classList.add("active");
+        }
         document.addEventListener("DOMContentLoaded", function () {
             customElements.define("my-jp-analyzer", JPAnalyzer);
-            configBtn.addEventListener("click", (event) => {
-                if (!config.toggleButtonId)
-                    config.toggleButtonId = "gptConfig";
-                config.toggle(true);
-                event.preventDefault();
-            });
+
             practiceBtn.addEventListener("click", (event) => {
                 if (!practice.toggleButtonId)
                     practice.toggleButtonId = "practiceBtn";
@@ -215,16 +162,55 @@
             document.querySelector('#practice button').addEventListener('click', e => {
                 practice.toggle(false);
             })
-            const observer = new MutationObserver(function (mutations) {
+
+
+            const tab1btn = document.getElementById("tab1-btn");
+            const tab2btn = document.getElementById("tab2-btn");
+            tab1btn.addEventListener("click", (e) => showTab("tab1"));
+            tab2btn.addEventListener("click", (e) => showTab("tab2"));
+
+
+            observer = new MutationObserver(function (mutations) {
                 mutations.forEach(function (mutation) {
                     if (document.querySelector('#lession-content')) {
                         getMDContent(lessionUrl)
                             .then((text) => {
                                 document.getElementById("lession-content").innerHTML = text;
-                                startApp(chatModule);
+                                document.querySelectorAll("#lession-content table").forEach((t, i) => {
+                                    t && t.classList.add("lession");
+                                    i < 2 && t.classList.add("basic");
+                                    i >= 1 && t.classList.add("conversation");
+                                });
+
+
+                                const toggleThemeBtn = document.getElementById("toggleThemeBtn")
+                                toggleThemeBtn.addEventListener("click", () => {
+                                    const gptConfig = document.getElementById("gpt-config");
+                                    document.body.classList.toggle("dark-theme");
+                                    if (document.body.classList.contains("dark-theme")) {
+                                        toggleThemeBtn.textContent = "🌛";
+                                        //其他需要调整的
+                                        gptConfig.style.filter = "invert(1) brightness(0.9) contrast(1.1)";
+                                    } else {
+                                        toggleThemeBtn.textContent = "🌞";
+                                        //其他需要调整的
+                                        gptConfig.style.filter = "";
+                                    }
+                                });
+
+
+                                startApp();
                             })
                             .catch((e) => console.log(e));
                         observer.disconnect();
+                    }
+                    if (document.querySelector('#gpt-config').childElementCount) {
+                        configBtn.addEventListener("click", (event) => {
+                            if (!config.toggleButtonId)
+                                config.toggleButtonId = "gptConfig";
+                            config.toggle(true);
+                            event.preventDefault();
+                        });
                     }
                 });
             });
@@ -234,7 +220,12 @@
 
 
         });
-
+        document.addEventListener('readystatechange', () => {
+            if (document.readyState === 'complete') {
+                observer.disconnect();
+                console.log('MutationObserver disconnected.');
+            }
+        });
         if ('serviceWorker' in navigator) {
             window.addEventListener("load", () => {
                 navigator.serviceWorker.register('/Japanese-learning/sw.js', { scope: '/Japanese-learning/' })
