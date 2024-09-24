@@ -33,7 +33,6 @@ self.addEventListener('activate', (event) => {
 
 // 获取事件
 self.addEventListener('fetch', event => {
-    const isMobile = /Mobi|Android/i.test(event.request.headers.get('User-Agent'));
 
     event.respondWith(
         caches.match(event.request)
@@ -50,11 +49,11 @@ self.addEventListener('fetch', event => {
                     if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
                         return networkResponse;
                     }
-                    if (isMobile) {
 
                         // 只缓存 HTML 文件
                         if (event.request.destination === 'document'
                             || event.request.url.endsWith('.md')
+                            || event.request.url.endsWith('.gz')
                             // || event.request.url.endsWith('.js')
                             // || event.request.url.endsWith('.css')
                         ) {
@@ -64,16 +63,6 @@ self.addEventListener('fetch', event => {
                                     cache.put(event.request, responseToCache);
                                 });
                         }
-                    } else {
-                        if (event.request.destination === 'document'
-                            || event.request.url.endsWith('.gz')) {
-                            const responseToCache = networkResponse.clone();
-                            caches.open(CACHE_NAME)
-                                .then(cache => {
-                                    cache.put(event.request, responseToCache);
-                                });
-                        } 
-                    }
 
                     return networkResponse;
                 });
