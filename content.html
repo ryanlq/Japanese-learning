@@ -173,8 +173,8 @@
             <div id="gpt-config"></div>
         </div>
         <div id="practice" class="myapp-popup-menu">
+            <button>退出</button>
             <dictation-component autoSpeak="true" lang="ja-JP"></dictation-component>
-
         </div>
 
         <script type="module" defer>
@@ -237,6 +237,9 @@
                     practice.toggle(true);
                     event.preventDefault();
                 });
+                practice.querySelector('button').addEventListener('click',e=>{
+                    practice.toggle(false);
+                })
                 startApp(chatModule);
             });
         </script>
