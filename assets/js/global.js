@@ -133,7 +133,7 @@ function loadVoices() {
   }
 
 
-  function readit(title) {
+  function readit() {
     // title && speak(title, 'zh-CN', 'female', true)
     const { readType } = getReadConfig();
     let queryStr = readType.trim() == "文章" ? "table.lession tr" : "#tab1 tr";

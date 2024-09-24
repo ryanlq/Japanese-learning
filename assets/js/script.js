@@ -77,8 +77,6 @@ async function contextmenuActions(action, detail, outputid) {
 
 // 应用启动函数
 export default function startApp() {
-  const playPauseBtn = document.getElementById("playPauseBtn");
-
   const leftContentId = "left-content";
   const leftcontent = document.querySelector(".lession-layout .content");
   leftcontent ? (leftcontent.id = leftContentId) : null;
@@ -94,9 +92,6 @@ export default function startApp() {
 
   let content = "";
   voices = loadVoices();
-  // window.speechSynthesis.onvoiceschanged = loadVoices;
-
-  const title = "";
 
   const trs = document.querySelectorAll("table.lession tr");
   trs.forEach((t) => {
@@ -134,23 +129,6 @@ export default function startApp() {
   });
 
   init_practice()
-
-  playPauseBtn.addEventListener("click", () => {
-    if (isSpeaking) {
-      window.speechSynthesis.pause();
-      playPauseBtn.textContent = "🐬"; // 更改为播放图标
-      isSpeaking = false;
-    } else {
-      if (window.speechSynthesis.speaking) {
-        window.speechSynthesis.resume();
-        playPauseBtn.textContent = "🐳"; // 更改为暂停图标
-        isSpeaking = true;
-      } else {
-        readit(title);
-      }
-    }
-  });
-
 
   document.querySelectorAll("button.range").forEach((btn) => {
     let range = btn.getAttribute("range");

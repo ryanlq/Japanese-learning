@@ -153,13 +153,13 @@
         document.addEventListener("DOMContentLoaded", function () {
             customElements.define("my-jp-analyzer", JPAnalyzer);
             if (document.querySelector('#gpt-config').childElementCount) {
-                        configBtn.addEventListener("click", (event) => {
-                            if (!config.toggleButtonId)
-                                config.toggleButtonId = "gptConfig";
-                            config.toggle(true);
-                            event.preventDefault();
-                        });
-                    }
+                configBtn.addEventListener("click", (event) => {
+                    if (!config.toggleButtonId)
+                        config.toggleButtonId = "gptConfig";
+                    config.toggle(true);
+                    event.preventDefault();
+                });
+            }
             practiceBtn.addEventListener("click", (event) => {
                 if (!practice.toggleButtonId)
                     practice.toggleButtonId = "practiceBtn";
@@ -189,7 +189,22 @@
                                     i >= 1 && t.classList.add("conversation");
                                 });
 
-
+                                const playPauseBtn = document.getElementById("playPauseBtn")
+                                playPauseBtn.addEventListener("click", () => {
+                                    if (isSpeaking) {
+                                        window.speechSynthesis.pause();
+                                        playPauseBtn.textContent = "🐬"; // 更改为播放图标
+                                        isSpeaking = false;
+                                    } else {
+                                        if (window.speechSynthesis.speaking) {
+                                            window.speechSynthesis.resume();
+                                            playPauseBtn.textContent = "🐳"; // 更改为暂停图标
+                                            isSpeaking = true;
+                                        } else {
+                                            readit();
+                                        }
+                                    }
+                                });
                                 const toggleThemeBtn = document.getElementById("toggleThemeBtn")
                                 toggleThemeBtn.addEventListener("click", () => {
                                     const gptConfig = document.getElementById("gpt-config");
