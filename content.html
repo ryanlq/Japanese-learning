@@ -1,276 +1,267 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <link rel="stylesheet" href="./assets/css/style.css" />
 
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
 
-    <body>
-        <div class="lession-layout">
-            <div class="btns">
-                <div class="group-1">
-                    <div class="home-btn">
-                        <a class="circle" href="/Japanese-learning/index.html">🛖</a>
-                    </div>
-                    <div class="speech-btn">
-                        <button class="play-pause-btn" id="playPauseBtn">🐬</button>
-                    </div>
-                    <div class="gpt-btn">
-                        <button class="circle" id="gptConfig">🤖</button>
-                    </div>
-                    <div class="theme-btn">
-                        <button class="circle" id="toggleThemeBtn">🌛</button>
-                    </div>
-                    <div class="practice-btn">
-                        <button class="circle" id="practiceBtn">✏️</button>
-                    </div>
+</head>
+
+<body>
+    <div class="lession-layout">
+        <div class="btns">
+            <div class="group-1">
+                <div class="home-btn">
+                    <a class="circle" href="/Japanese-learning/index.html">🛖</a>
                 </div>
-                <div id="speech-control">
-                    <div class="read-type">
-                        <button
-                            class="range"
-                            id="read-type-btn"
-                            range='["文章","单词"]'
-                        >
-                            文章
-                        </button>
-                    </div>
-                    <div class="rate">
-                        <button
-                            class="range"
-                            id="speech-rate-btn"
-                            range="[0.5,0.75,1,1.25,1.5,2]"
-                            range-index="2"
-                        >
-                            1倍速
-                        </button>
-                    </div>
-                    <div class="loop-number">
-                        <button
-                            class="range"
-                            id="speech-loop-number-btn"
-                            range="[1,2,3,4,5]"
-                        >
-                            重复1次
-                        </button>
-                    </div>
-                    <div class="with-translate">
-                        <button
-                            class="range"
-                            checked
-                            id="with-translate-btn"
-                            range='["读翻译","不读翻译"]'
-                        >
-                            翻译
-                        </button>
-                    </div>
-                    <div class="list-loop">
-                        <button
-                            class="range"
-                            checked
-                            id="loop-btn"
-                            range='["播完停止","播完继续"]'
-                        >
-                            播完停止
-                        </button>
-                    </div>
+                <div class="speech-btn">
+                    <button class="play-pause-btn" id="playPauseBtn">🐬</button>
+                </div>
+                <div class="gpt-btn">
+                    <button class="circle" id="gptConfig">🤖</button>
+                </div>
+                <div class="theme-btn">
+                    <button class="circle" id="toggleThemeBtn">🌛</button>
+                </div>
+                <div class="practice-btn">
+                    <button class="circle" id="practiceBtn">✏️</button>
                 </div>
             </div>
-            <div class="content">
-                <my-jp-analyzer
-                    dictPath="/Japanese-learning/assets/dicts"
-                ></my-jp-analyzer>
-                <div id="lession-content"></div>
-            </div>
-            <div class="tabs-content">
-                <div class="tabs">
-                    <button class="tab-button active" id="tab1-btn">
-                        单词
+            <div id="speech-control">
+                <div class="read-type">
+                    <button class="range" id="read-type-btn" range='["文章","单词"]'>
+                        文章
                     </button>
-                    <button class="tab-button" id="tab2-btn">Ask AI</button>
                 </div>
-                <div class="tab-content">
-                    <div id="tab1" class="tab active"></div>
-                    <div id="tab2" class="tab">
-                        <div id="chat-output"></div>
-                    </div>
+                <div class="rate">
+                    <button class="range" id="speech-rate-btn" range="[0.5,0.75,1,1.25,1.5,2]" range-index="2">
+                        1倍速
+                    </button>
+                </div>
+                <div class="loop-number">
+                    <button class="range" id="speech-loop-number-btn" range="[1,2,3,4,5]">
+                        重复1次
+                    </button>
+                </div>
+                <div class="with-translate">
+                    <button class="range" checked id="with-translate-btn" range='["读翻译","不读翻译"]'>
+                        翻译
+                    </button>
+                </div>
+                <div class="list-loop">
+                    <button class="range" checked id="loop-btn" range='["播完停止","播完继续"]'>
+                        播完停止
+                    </button>
                 </div>
             </div>
         </div>
-        <div id="config" class="myapp-popup-menu">
-            <div id="gpt-config"></div>
+        <div class="content">
+            <my-jp-analyzer dictPath="/Japanese-learning/assets/dicts"></my-jp-analyzer>
+            <div id="lession-content"></div>
         </div>
-        <div id="practice" class="myapp-popup-menu">
-            <button>退出</button>
-            <dictation-component autoSpeak="true" lang="ja-JP"></dictation-component>
+        <div class="tabs-content">
+            <div class="tabs">
+                <button class="tab-button active" id="tab1-btn">
+                    单词
+                </button>
+                <button class="tab-button" id="tab2-btn">Ask AI</button>
+            </div>
+            <div class="tab-content">
+                <div id="tab1" class="tab active"></div>
+                <div id="tab2" class="tab">
+                    <div id="chat-output"></div>
+                </div>
+            </div>
         </div>
+    </div>
+    <div id="config" class="myapp-popup-menu">
+        <div id="gpt-config"></div>
+    </div>
+    <div id="practice" class="myapp-popup-menu">
+        <button>退出</button>
+        <dictation-component autoSpeak="true" lang="ja-JP"></dictation-component>
+    </div>
 
-        <script defer>
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const index = decodeURIComponent(urlParams.get("index"));
-            const lessionUrl = decodeURIComponent(urlParams.get("lession"));
-            function getWords(index) {
-                const url = "/Japanese-learning/lessions/vocabulary.md";
-                return getMDContent(url, "vocabulary", index);
-            }
-            function getMDContent(url, type = "lession", index = 1) {
-                return fetch(url)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("网络响应失败");
-                        }
-                        return response.text();
-                    })
-                    .then((markdown) => {
-                        let match = markdown.split(/## 第\d?\d课/)[index] || "";
-                        match = match.split("\n\n") || [];
-                        const result = match
-                            .filter((t) => Boolean(t.trim()))
-                            .map((t) => {
-                                return markdownToHtmlTable(t, type);
-                            })
-                            .join("");
-                        return result;
+    <script defer>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const index = decodeURIComponent(urlParams.get("index"));
+        const lessionUrl = decodeURIComponent(urlParams.get("lession"));
+        function getWords(index) {
+            const url = "/Japanese-learning/lessions/vocabulary.md";
+            return getMDContent(url, "vocabulary", index);
+        }
+        function getMDContent(url, type = "lession", index = 1) {
+            return fetch(url)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("网络响应失败");
+                    }
+                    return response.text();
+                })
+                .then((markdown) => {
+                    let match = markdown.split(/## 第\d?\d课/)[index] || "";
+                    match = match.split("\n\n") || [];
+                    const result = match
+                        .filter((t) => Boolean(t.trim()))
+                        .map((t) => {
+                            return markdownToHtmlTable(t, type);
+                        })
+                        .join("");
+                    return result;
+                });
+        }
+
+        function markdownToHtmlTable(markdownStr, type) {
+            const rows = markdownStr
+                .trim()
+                .split("\n")
+                .filter((row) => row.trim() !== "" && row.includes("|"));
+            // let html = '<table border="1" class="regular">\n';
+            let html = `<table class="${(type = "lession" ? "lession" : "regular")}">\n`;
+
+            rows.forEach((row, index) => {
+                const columns = row
+                    .split("|")
+                    .map((col) => col.trim())
+                    .filter((col) => col);
+
+                if (index === 0) {
+                    html += "  <tr>\n";
+                    columns.forEach((col) => {
+                        html += `    <td>${col}</td>\n`;
                     });
-            }
+                    html += "  </tr>\n";
+                } else {
+                    html += "  <tr>\n";
+                    columns.forEach((col) => {
+                        html += `    <td>${col}</td>\n`;
+                    });
+                    html += "  </tr>\n";
+                }
+            });
+            html += "</table>";
+            return html;
+        }
+        document.addEventListener("DOMContentLoaded", function () {
 
-            function markdownToHtmlTable(markdownStr, type) {
-                const rows = markdownStr
-                    .trim()
-                    .split("\n")
-                    .filter((row) => row.trim() !== "" && row.includes("|"));
-                // let html = '<table border="1" class="regular">\n';
-                let html = `<table class="${(type = "lession" ? "lession" : "regular")}">\n`;
-
-                rows.forEach((row, index) => {
-                    const columns = row
-                        .split("|")
-                        .map((col) => col.trim())
-                        .filter((col) => col);
-
-                    if (index === 0) {
-                        html += "  <tr>\n";
-                        columns.forEach((col) => {
-                            html += `    <td>${col}</td>\n`;
-                        });
-                        html += "  </tr>\n";
-                    } else {
-                        html += "  <tr>\n";
-                        columns.forEach((col) => {
-                            html += `    <td>${col}</td>\n`;
-                        });
-                        html += "  </tr>\n";
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (document.querySelector('#lession-content')) {
+                        getMDContent(lessionUrl)
+                            .then((text) => {
+                                document.getElementById("lession-content").innerHTML = text;
+                            })
+                            .catch((e) => console.log(e));
+                        observer.disconnect();
                     }
                 });
-                html += "</table>";
-                return html;
-            }
-            document.addEventListener("DOMContentLoaded", function() {
-                getMDContent(lessionUrl)
-                .then((text) => {
-                    document.getElementById("lession-content").innerHTML = text;
-                })
-                .catch((e) => console.log(e));
             });
 
-        </script>
-        <script src="https://my-html-sites.pages.dev/components/WritingPractice.js" defer></script>
-        <script type="module" defer>
+            const config = { childList: true, subtree: true };
+            observer.observe(document.body, config);
 
-  
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/Japanese-learning/sw.js', { scope: '/Japanese-learning/' })
-                    .then((registration) => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                        registration.onupdatefound = () => {
-                            const newWorker = registration.installing;
-                            newWorker.onstatechange = () => {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    if (confirm('有新版本可用，是否更新？')) {
-                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                    }
+
+        });
+
+    </script>
+    <script type="module" defer>
+
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/Japanese-learning/sw.js', { scope: '/Japanese-learning/' })
+                .then((registration) => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                    registration.onupdatefound = () => {
+                        const newWorker = registration.installing;
+                        newWorker.onstatechange = () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                if (confirm('有新版本可用，是否更新？')) {
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
                                 }
-                            };
+                            }
                         };
-                    })
-                    .catch((error) => {
-                        console.error('Service Worker registration failed:', error);
-                    });
+                    };
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
         }
 
 
-            import { createChatModule } from "https://my-html-sites.pages.dev/components/gpt/chatWithConfig.js";
-            import PopupMenu from "https://my-html-sites.pages.dev/components/popMenu.js";
+        import { createChatModule } from "https://my-html-sites.pages.dev/components/gpt/chatWithConfig.js";
+        import PopupMenu from "https://my-html-sites.pages.dev/components/popMenu.js";
 
-            const configBtn = document.querySelector("#gptConfig");
-            const practiceBtn = document.querySelector("#practiceBtn");
-            const afterSaveCallback = () => configBtn.click();
-            const chatModule = createChatModule("gpt-config", {
-                styles: {
-                    backgroundColor: "#fdfdfdf7",
-                    border: "2px solid #8baf0a87",
-                },
-                callback: afterSaveCallback,
+        const configBtn = document.querySelector("#gptConfig");
+        const practiceBtn = document.querySelector("#practiceBtn");
+        const afterSaveCallback = () => configBtn.click();
+        const chatModule = createChatModule("gpt-config", {
+            styles: {
+                backgroundColor: "#fdfdfdf7",
+                border: "2px solid #8baf0a87",
+            },
+            callback: afterSaveCallback,
+        });
+
+        document.addEventListener("ChatDone", function (e) {
+            console.log("生成完毕:", e.detail);
+        });
+
+        const config = new PopupMenu("config", {
+            position: "left",
+            size: {
+                height: "auto",
+                width: "auto",
+            },
+            styles: {
+                backgroundColor: "#00000000",
+                left: "100px",
+                top: "20px",
+            },
+        });
+        const practice = new PopupMenu("practice", {
+            position: "left",
+            size: {
+                height: "auto",
+                width: "auto",
+            },
+            styles: {
+                backgroundColor: "#00000000",
+                left: "100px",
+                top: "20px",
+            },
+        });
+        import JPAnalyzer from "https://my-html-sites.pages.dev/components/jp-analyst/index.js";
+
+        import startApp from "/Japanese-learning/assets/js/script.js";
+        window.addEventListener("load", () => {
+            customElements.define("my-jp-analyzer", JPAnalyzer);
+            configBtn.addEventListener("click", (event) => {
+                if (!config.toggleButtonId)
+                    config.toggleButtonId = "gptConfig";
+                config.toggle(true);
+                event.preventDefault();
             });
-
-            document.addEventListener("ChatDone", function (e) {
-                console.log("生成完毕:", e.detail);
+            practiceBtn.addEventListener("click", (event) => {
+                if (!practice.toggleButtonId)
+                    practice.toggleButtonId = "practiceBtn";
+                practice.toggle(true);
+                event.preventDefault();
             });
-
-            const config = new PopupMenu("config", {
-                position: "left",
-                size: {
-                    height: "auto",
-                    width: "auto",
-                },
-                styles: {
-                    backgroundColor: "#00000000",
-                    left: "100px",
-                    top: "20px",
-                },
-            });
-            const practice = new PopupMenu("practice", {
-                position: "left",
-                size: {
-                    height: "auto",
-                    width: "auto",
-                },
-                styles: {
-                    backgroundColor: "#00000000",
-                    left: "100px",
-                    top: "20px",
-                },
-            });
-            import JPAnalyzer from "https://my-html-sites.pages.dev/components/jp-analyst/index.js";
-
-            import startApp from "/Japanese-learning/assets/js/script.js";
-            window.addEventListener("load", () => {
-                customElements.define("my-jp-analyzer", JPAnalyzer);
-                configBtn.addEventListener("click", (event) => {
-                    if (!config.toggleButtonId)
-                        config.toggleButtonId = "gptConfig";
-                    config.toggle(true);
-                    event.preventDefault();
-                });
-                practiceBtn.addEventListener("click", (event) => {
-                    if (!practice.toggleButtonId)
-                        practice.toggleButtonId = "practiceBtn";
-                    practice.toggle(true);
-                    event.preventDefault();
-                });
-                document.querySelector('#practice button').addEventListener('click',e=>{
-                    practice.toggle(false);
-                })
-                startApp(chatModule);
-            });
+            document.querySelector('#practice button').addEventListener('click', e => {
+                practice.toggle(false);
+            })
+            startApp(chatModule);
+        });
 
 
 
 
-        </script>
-    </body>
+    </script>
+    <script src="https://my-html-sites.pages.dev/components/WritingPractice.js" defer></script>
+
+</body>
+
 </html>
