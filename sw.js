@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-cache-v5'; // 使用固定的版本号
+const CACHE_NAME = 'my-cache-v6'; // 使用固定的版本号
 const RESOURCES_TO_CACHE = [
     'assets/js/script.js',
     'assets/css/styles.css',
@@ -54,8 +54,9 @@ self.addEventListener('fetch', event => {
                         // 只缓存 HTML 文件
                         if (event.request.destination === 'document'
                             || event.request.url.endsWith('.md')
-                            || event.request.url.endsWith('.js')
-                            || event.request.url.endsWith('.css')) {
+                            // || event.request.url.endsWith('.js')
+                            // || event.request.url.endsWith('.css')
+                        ) {
                             const responseToCache = networkResponse.clone();
                             caches.open(CACHE_NAME)
                                 .then(cache => {
