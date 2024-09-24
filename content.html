@@ -145,50 +145,10 @@
             html += "</table>";
             return html;
         }
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const observer = new MutationObserver(function (mutations) {
-                mutations.forEach(function (mutation) {
-                    if (document.querySelector('#lession-content')) {
-                        getMDContent(lessionUrl)
-                            .then((text) => {
-                                document.getElementById("lession-content").innerHTML = text;
-                            })
-                            .catch((e) => console.log(e));
-                        observer.disconnect();
-                    }
-                });
-            });
-
-            const config = { childList: true, subtree: true };
-            observer.observe(document.body, config);
-
-
-        });
-
     </script>
     <script type="module" defer>
 
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/Japanese-learning/sw.js', { scope: '/Japanese-learning/' })
-                .then((registration) => {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                    registration.onupdatefound = () => {
-                        const newWorker = registration.installing;
-                        newWorker.onstatechange = () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                if (confirm('有新版本可用，是否更新？')) {
-                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                }
-                            }
-                        };
-                    };
-                })
-                .catch((error) => {
-                    console.error('Service Worker registration failed:', error);
-                });
-        }
 
 
         import { createChatModule } from "https://my-html-sites.pages.dev/components/gpt/chatWithConfig.js";
@@ -236,7 +196,9 @@
         import JPAnalyzer from "https://my-html-sites.pages.dev/components/jp-analyst/index.js";
 
         import startApp from "/Japanese-learning/assets/js/script.js";
-        window.addEventListener("load", () => {
+
+
+        document.addEventListener("DOMContentLoaded", function () {
             customElements.define("my-jp-analyzer", JPAnalyzer);
             configBtn.addEventListener("click", (event) => {
                 if (!config.toggleButtonId)
@@ -253,10 +215,47 @@
             document.querySelector('#practice button').addEventListener('click', e => {
                 practice.toggle(false);
             })
-            startApp(chatModule);
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (document.querySelector('#lession-content')) {
+                        getMDContent(lessionUrl)
+                            .then((text) => {
+                                document.getElementById("lession-content").innerHTML = text;
+                                startApp(chatModule);
+                            })
+                            .catch((e) => console.log(e));
+                        observer.disconnect();
+                    }
+                });
+            });
+
+            const config = { childList: true, subtree: true };
+            observer.observe(document.body, config);
+
+
         });
 
-
+        if ('serviceWorker' in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register('/Japanese-learning/sw.js', { scope: '/Japanese-learning/' })
+                    .then((registration) => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                        registration.onupdatefound = () => {
+                            const newWorker = registration.installing;
+                            newWorker.onstatechange = () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    if (confirm('有新版本可用，是否更新？')) {
+                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                    }
+                                }
+                            };
+                        };
+                    })
+                    .catch((error) => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
 
 
     </script>
