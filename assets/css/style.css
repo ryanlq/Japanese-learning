@@ -529,15 +529,16 @@ dictation-component{
 }
 #practice.myapp-popup-menu.open{
     backdrop-filter: blur(100px);
+    display: flex;
 }
 #practice.myapp-popup-menu{
+    display: none;
     width: 100%;
     height: 100%;
     background-color: #00000099;
     position: fixed;
     top: 0;
     left: 0;
-    display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: hidden;
