@@ -152,7 +152,14 @@
         }
         document.addEventListener("DOMContentLoaded", function () {
             customElements.define("my-jp-analyzer", JPAnalyzer);
-
+            if (document.querySelector('#gpt-config').childElementCount) {
+                        configBtn.addEventListener("click", (event) => {
+                            if (!config.toggleButtonId)
+                                config.toggleButtonId = "gptConfig";
+                            config.toggle(true);
+                            event.preventDefault();
+                        });
+                    }
             practiceBtn.addEventListener("click", (event) => {
                 if (!practice.toggleButtonId)
                     practice.toggleButtonId = "practiceBtn";
@@ -204,19 +211,11 @@
                             .catch((e) => console.log(e));
                         observer.disconnect();
                     }
-                    if (document.querySelector('#gpt-config').childElementCount) {
-                        configBtn.addEventListener("click", (event) => {
-                            if (!config.toggleButtonId)
-                                config.toggleButtonId = "gptConfig";
-                            config.toggle(true);
-                            event.preventDefault();
-                        });
-                    }
+
                 });
             });
 
-            const config = { childList: true, subtree: true };
-            observer.observe(document.body, config);
+            observer.observe(document.body, { childList: true, subtree: true });
 
 
         });
