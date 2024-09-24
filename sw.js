@@ -1,7 +1,7 @@
-const CACHE_NAME = 'my-cache-v8'; // 使用固定的版本号
+const CACHE_NAME = 'my-cache-v9'; // 使用固定的版本号
 const RESOURCES_TO_CACHE = [
     'assets/js/script.js',
-    'assets/css/styles.css',
+    'assets/css/style.css',
     // 'offline.html' // 确保有一个离线页面
 ];
 
