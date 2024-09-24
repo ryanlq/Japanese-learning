@@ -11,6 +11,40 @@ let currentUtterance = null; // 当前正在播放的语音合成实例
 let playPauseBtn = document.getElementById("playPauseBtn"); // 假设你有一个播放/暂停按钮
 let toggleThemeBtn = document.getElementById("toggleThemeBtn");
 let jpAnalyzer = document.querySelector("my-jp-analyzer");
+
+const practiceBtn = document.querySelector("#practiceBtn");
+const practice = document.querySelector("#practice");
+let allSentences;
+
+function init_practice(){
+  allSentences = Array.from(document.querySelectorAll('#lession-content table tr')).map(t=>{
+    return [t.firstElementChild.textContent,t.lastElementChild.textContent]
+  })
+  if(!allSentences || allSentences.length == 0) return;
+
+  const dictation = document.querySelector('dictation-component')
+  const current_index = 0
+  dictation.setAttribute('len',allSentences.length)
+  dictation.setAttribute('current_index',current_index )
+  const current_item = allSentences[current_index]
+  dictation.setAttribute('original',current_item[0])
+  dictation.setAttribute('translation',current_item[1])
+  
+  dictation.addEventListener('dictation-complete', (event) => {
+    const index = Number(dictation.getAttribute('current_index'))
+    const next_index = index + 1
+    if(next_index == length) {
+      alert("已全部完成")
+    } else {
+      const current_item = allSentences[next_index]
+      dictation.setAttribute('current_index',next_index)
+      dictation.setAttribute('original',current_item[0])
+      dictation.setAttribute('translation',current_item[1])
+    }
+  });
+}
+
+
 let NewWords = [],
   NewWordMeans,
   matchWordsRegex;
@@ -402,6 +436,8 @@ export default function startApp(chatModule) {
     ).map((td) => td.textContent);
     matchWordsRegex = new RegExp(`(${NewWords.join("|")})`, "gi");
   });
+
+  init_practice()
 
   playPauseBtn.addEventListener("click", () => {
     if (isSpeaking) {
