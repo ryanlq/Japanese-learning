@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-cache-v6'; // 使用固定的版本号
+const CACHE_NAME = 'my-cache-v7'; // 使用固定的版本号
 const RESOURCES_TO_CACHE = [
     'assets/js/script.js',
     'assets/css/styles.css',
@@ -45,6 +45,7 @@ self.addEventListener('fetch', event => {
 
                 // 否则，发起网络请求
                 return fetch(event.request).then(networkResponse => {
+                    console.log(event.request.url)
                     // 检查网络响应是否有效
                     if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
                         return networkResponse;
@@ -83,24 +84,7 @@ self.addEventListener('fetch', event => {
 
 // 监听更新事件
 self.addEventListener('message', (event) => {
-    const isSmallScreen = /Mobi|Android/i.test(event.request.headers.get('User-Agent'));
-    if (isSmallScreen) {
-        const resourcesToExcludeRegex = /assets\/dicts\/.*\.dat\.gz$/;
-        caches.open(CACHE_NAME).then(cache => {
-            // 获取所有缓存的请求
-            cache.keys().then(requests => {
-                requests.forEach(request => {
-                    // 检查请求的 URL 是否匹配正则表达式
-                    if (resourcesToExcludeRegex.test(request.url)) {
-                        cache.delete(request).then(() => {
-                            console.log(`Deleted: ${request.url}`);
-                        });
-                    }
-                });
-            });
-        });
-    }
     if (event.data && event.data.type === 'SKIP_WAITING') {
-        self.skipWaiting(); // 立即激活新的 Service Worker
+        self.skipWaiting();
     }
 });
