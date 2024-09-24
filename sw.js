@@ -53,7 +53,7 @@ self.addEventListener('fetch', event => {
 
                         // 只缓存 HTML 文件
                         if (event.request.destination === 'document'
-                            // || event.request.url.endsWith('.html')
+                            || event.request.url.endsWith('.md')
                             || event.request.url.endsWith('.js')
                             || event.request.url.endsWith('.css')) {
                             const responseToCache = networkResponse.clone();
