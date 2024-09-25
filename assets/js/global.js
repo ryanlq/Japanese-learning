@@ -231,6 +231,7 @@ function loadVoices() {
     }
     if (readType == "文章") {
       const jp_sentence = element.firstElementChild.textContent;
+      !jpAnalyzer && (jpAnalyzer = document.querySelector("my-jp-analyzer"))
       jp_sentence && jpAnalyzer.setAttribute("data-text", jp_sentence);
     }
   
