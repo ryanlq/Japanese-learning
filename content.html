@@ -236,6 +236,7 @@
         });
         document.addEventListener('readystatechange', () => {
             if (document.readyState === 'complete') {
+                window.speechSynthesis.speaking = false;
                 observer.disconnect();
                 console.log('MutationObserver disconnected.');
             }

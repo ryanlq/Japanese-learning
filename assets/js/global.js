@@ -2,7 +2,8 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const index = decodeURIComponent(urlParams.get("index"));
 const lessionUrl = decodeURIComponent(urlParams.get("lession"));
-const jpAnalyzer = document.querySelector("my-jp-analyzer")
+var jpAnalyzer = document.querySelector("my-jp-analyzer")
+
 let NewWords = []
 let NewWordMeans
 let matchWordsRegex;
