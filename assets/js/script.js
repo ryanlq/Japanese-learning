@@ -12,6 +12,7 @@ function init_practice(){
   allSentences = Array.from(document.querySelectorAll('#lession-content table tr')).map(t=>{
     return [t.firstElementChild.textContent,t.lastElementChild.textContent]
   })
+  allSentences = shuffleArray(allSentences)
   if(!allSentences || allSentences.length == 0) return;
 
   const dictation = document.querySelector('dictation-component')
