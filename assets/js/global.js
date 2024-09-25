@@ -20,6 +20,8 @@ const the_natural_voices = {
     "ja-JP": { male: "keita", female: "nanami" },
 };
 
+document.title += `第${index}课`
+
 
 function getWords(index) {
     const url = "/Japanese-learning/lessions/vocabulary.md";
