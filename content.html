@@ -237,6 +237,7 @@
                 if(window.speechSynthesis.speaking) {
                     window.speechSynthesis.cancel()
                 }
+                window.JPAnalyzer = document.querySelector("my-jp-analyzer")?.analyzer
                 observer.disconnect();
                 console.log('MutationObserver disconnected.');
             }
