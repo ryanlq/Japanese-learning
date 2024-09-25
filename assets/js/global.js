@@ -183,17 +183,17 @@ function loadVoices() {
       .flat();
   }
   function getReadConfig() {
-    const readType = document.querySelector("#read-type-btn").textContent;
-    const rate = document
+    const readType = document.querySelector("#read-type-btn").textContent.replace(/\s/g,'');
+    const rate = Number(document
       .querySelector("#speech-rate-btn")
-      .textContent.replaceAll("x", "")
-      .replaceAll("倍速", "");
-    const loopCount = document
+      .textContent.replace("x", "")
+      .replaceAll("倍速", "").replace(/\s/g,''));
+    const loopCount = Number(document
       .querySelector("#speech-loop-number-btn")
-      .textContent.replaceAll("重复", "")
-      .replaceAll("次", "");
-    const withTrans = document.querySelector("#with-translate-btn").textContent;
-    const loop = document.querySelector("#loop-btn").textContent;
+      .textContent.replace("重复", "")
+      .replace("次", "").replace(/\s/g,''));
+    const withTrans = document.querySelector("#with-translate-btn").textContent.replace(/\s/g,'');
+    const loop = document.querySelector("#loop-btn").textContent.replace(/\s/g,'');
   
     return { readType, rate, loopCount, withTrans, loop };
   }
@@ -259,7 +259,7 @@ function loadVoices() {
       isSpeaking = false; // 当前播放结束
       element && element.classList.remove("speaking");
   
-      if (loopCount > 1) {
+      if (Number(loopCount) > 1) {
         queue.unshift({
           text,
           lang,
