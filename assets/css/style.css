@@ -514,7 +514,9 @@ my-jp-analyzer{
     scale: 0.8;
     color: aqua;
 }
-
+#practice button:hover{
+    background-color: #ff3636b5;
+}
 #practice button{
     position: absolute;
     right: -40px;
